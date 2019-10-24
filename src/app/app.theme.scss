@@ -1,0 +1,115 @@
+@import '~@angular/material/theming';
+
+// Typography
+@font-face {
+  font-family: Hind;
+  src: url(~src/assets/fonts/Hind/Hind-Regular.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Hind;
+  src: url(~src/assets/fonts/Hind/Hind-SemiBold.ttf);
+  font-weight: bold;
+}
+
+// Define a custom typography config that overrides the font-family as well as the
+// `headlines` and `body-1` levels.
+$custom-typography: mat-typography-config(
+  $font-family: 'Hind',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500),
+);
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core($custom-typography);
+
+$qinoa-primary-palette: (
+  50: #ebe0ee,
+  100: #cdb3d6,
+  200: #ac80ba,
+  300: #8b4d9e,
+  400: #72268a,
+  500: #590075,
+  600: #51006d,
+  700: #480062,
+  800: #3e0058,
+  900: #2e0045,
+  A100: #c87aff,
+  A200: #b247ff,
+  A400: #9d14ff,
+  A700: #9200f9,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$qinoa-accent-palette: (
+  50: #fef9e3,
+  100: #fdefba,
+  200: #fbe58c,
+  300: #f9da5d,
+  400: #f8d23b,
+  500: #f7ca18,
+  600: #f6c515,
+  700: #f5bd11,
+  800: #f3b70e,
+  900: #f1ab08,
+  A100: #ffffff,
+  A200: #fff7e6,
+  A400: #ffe6b3,
+  A700: #ffdd9a,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$qinoa-primary: mat-palette($qinoa-primary-palette);
+$qinoa-accent: mat-palette($qinoa-accent-palette);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+//$qinoa-primary: mat-palette($qinoa-primary);
+//$qinoa-accent: mat-palette($qinoa-secondary, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$qinoa-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$qinoa-theme: mat-light-theme($qinoa-primary, $qinoa-accent, $qinoa-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($qinoa-theme);
