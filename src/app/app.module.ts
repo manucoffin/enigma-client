@@ -35,6 +35,10 @@ import {
   MatSelectModule,
   MatInputModule,
 } from '@angular/material';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { EnigmaModule } from './features/enigma/enigma.module';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +46,7 @@ import {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    SocketIoModule.forRoot(config),
 
     // Material Modules
     MatCheckboxModule,
@@ -75,6 +80,8 @@ import {
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+
+    EnigmaModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

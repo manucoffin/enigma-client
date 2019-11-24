@@ -1,0 +1,10 @@
+<h3>Algorithm : {{ algorithm }}</h3>
+<h3>Validation Slug : {{ validationSlug }}</h3>
+<h3>Batch testing : {{ batchTesting }}</h3>
+
+<ul>
+  <li *ngFor="let decryptKey of (decryptKeys$ | async)">
+    <div>id : {{ decryptKey.id }}</div>
+    <div>status : {{ decryptKey.status }}</div>
+  </li>
+</ul>
