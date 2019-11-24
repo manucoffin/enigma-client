@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
   constructor(private enigmaService: EnigmaService) {}
 
   ngOnInit() {
+    // this.decryptMessage('Je vais au texas avec Georges Abitbol.', 5);
+    // this.decryptMessage('Oj afnx fz yjcfx fajh Ljtwljx Fgnygtq.', -5);
+
     this.enigmaService
       .getAlgorithm()
       .subscribe(algorithm => (this.algorithm = algorithm));
@@ -29,9 +32,7 @@ export class HomeComponent implements OnInit {
     this.decryptKeys$ = this.enigmaService.decryptKeys$;
 
     this.enigmaService.batch$.subscribe(batch => {
-      console.log('batch received', batch);
-
-      if (!this.batchTesting) {
+      if (!this.batchTesting && this.algorithm && this.validationSlug) {
         this.enigmaService.emitBatchAccepted(batch.decryptKeys);
         this.batchTesting = true;
         this.testBatch(batch.encryptedMessage, batch.decryptKeys);
@@ -40,16 +41,24 @@ export class HomeComponent implements OnInit {
   }
 
   private testBatch(encryptedMessage, decryptKeys): void {
-    const batchValid = false;
+    let batchValid = false;
+
+    decryptKeys.map((key: IDecryptKey) => {
+      const algorithm = this.algorithm
+        .replace('amountVar', key.key)
+        .replace('strVar', encryptedMessage);
+
+      const decryptedMessage = eval(algorithm);
+
+      console.log(decryptedMessage, key.key);
+
+      batchValid = decryptedMessage.includes(this.validationSlug);
+    });
 
     if (batchValid) {
       this.enigmaService.emitBatchValidated(decryptKeys[0], 'decryptedMessage');
     } else {
       this.enigmaService.emitBatchRejected(decryptKeys);
     }
-
-    setTimeout(() => {
-      this.batchTesting = false;
-    }, 5000);
   }
 }

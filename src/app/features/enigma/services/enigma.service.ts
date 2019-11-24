@@ -3,8 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { IDecryptKey } from '../types/decrypt-key.interface';
 import { IBatch } from '../types/batch.interface';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -42,16 +41,4 @@ export class EnigmaService {
   ): void {
     this.socket.emit('message-decrypted', { decryptKey, decryptedMessage });
   }
-
-  // batch-accepted
-  // batch-rejected
-  // message-decrypted
-
-  // public sendMessage(msg: string) {
-  //   this.socket.emit('message', msg);
-  // }
-  //
-  // public getMessage() {
-  //   return this.socket.fromEvent('message').map(data => data.msg);
-  // }
 }
