@@ -4,7 +4,6 @@
 
 <ul>
   <li *ngFor="let decryptKey of (decryptKeys$ | async)">
-    <div>id : {{ decryptKey.id }}</div>
-    <div>status : {{ decryptKey.status }}</div>
+    <div [ngClass]="statuses[decryptKey.status]">key : {{ decryptKey.key }}</div>
   </li>
 </ul>
