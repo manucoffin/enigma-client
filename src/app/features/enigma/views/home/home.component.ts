@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EnigmaService } from '../../services/enigma.service';
 import { IDecryptKey } from '../../types/decrypt-key.interface';
 import { Observable } from 'rxjs';
@@ -10,12 +10,15 @@ import { IMessageDecrypted } from '../../types/message-decrypted.interface';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('consoleContainer', { static: false })
+  private consoleContainer: ElementRef;
+
   public decryptKeys$: Observable<IDecryptKey[]>;
   public algorithm: string;
   public validationSlug: string;
   public statuses = ['unknown', 'pending', 'rejected', 'validated'];
   public decryptedMessages: string[] = [];
-  public consoleMessages: { text: string; class: string }[] = [];
+  public consoleMessages: { text: string; class: string; date: string }[] = [];
 
   private batchTesting = false;
 
@@ -36,13 +39,10 @@ export class HomeComponent implements OnInit {
     this.decryptKeys$ = this.enigmaService.decryptKeys$;
 
     this.enigmaService.batch$.subscribe(batch => {
-      this.consoleMessages.push({ text: 'Batch received.', class: 'primary' });
+      this.addMessageToConsole('Batch received.', 'primary');
 
       if (!this.batchTesting && this.algorithm && this.validationSlug) {
-        this.consoleMessages.push({
-          text: 'Batch accepted.',
-          class: 'success',
-        });
+        this.addMessageToConsole('Batch accepted.', 'success');
 
         this.enigmaService.emitBatchAccepted(batch.decryptKeys);
         this.batchTesting = true;
@@ -56,7 +56,10 @@ export class HomeComponent implements OnInit {
 
     this.enigmaService.messageDecrypted$.subscribe(
       (decryptedData: IMessageDecrypted) => {
-        alert(`Le message a été décrypté: ${decryptedData.decryptedMessage}`);
+        this.addMessageToConsole(
+          `Message decrypted: ${decryptedData.decryptedMessage}`,
+          'success',
+        );
       },
     );
   }
@@ -73,11 +76,6 @@ export class HomeComponent implements OnInit {
 
       const decryptedMessage = eval(algorithm);
 
-      console.log(
-        decryptedMessage,
-        decryptedMessage.includes(this.validationSlug),
-      );
-
       this.decryptedMessages[key.id] = decryptedMessage;
 
       // If the batch is valid
@@ -91,19 +89,20 @@ export class HomeComponent implements OnInit {
     });
 
     if (batchValid) {
-      this.consoleMessages.push({
-        text: `Message decrypted: ${validMessage}`,
-        class: 'success',
-      });
       this.enigmaService.emitBatchValidated(validKey, validMessage);
     } else {
-      this.consoleMessages.push({
-        text: `Batch invalid.`,
-        class: 'error',
-      });
+      this.addMessageToConsole('Batch invalid.', 'error');
+
       this.enigmaService.emitBatchRejected(decryptKeys);
     }
 
     this.batchTesting = false;
+  }
+
+  private addMessageToConsole(text: string, cssClass: string): void {
+    const date = new Date();
+    const dateString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+    this.consoleMessages.unshift({ text, class: cssClass, date: dateString });
   }
 }
