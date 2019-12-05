@@ -5,24 +5,35 @@
 
   .console {
     background: darkslategray;
-    height: 150px;
+    height: 200px;
     padding: 1rem;
     box-sizing: border-box;
     overflow-y: scroll;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 
-    p {
-      &.primary {
-        color: whitesmoke;
-      }
+    .mat-card-content {
+      height: 100%;
+      margin-bottom: 0;
 
-      &.success {
-        color:greenyellow
-      }
+      p {
+        &.primary {
+          color: whitesmoke;
+        }
 
-      &.error {
-        color: orangered;
+        &.success {
+          color:greenyellow
+        }
+
+        &.error {
+          color: orangered;
+        }
       }
+    }
+
+    button {
+      position: absolute;
+      right: 1rem;
+      bottom: .5rem;
     }
   }
 

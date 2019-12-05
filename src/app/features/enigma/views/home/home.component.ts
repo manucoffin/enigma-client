@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   public statuses = ['unknown', 'pending', 'rejected', 'validated'];
   public decryptedMessages: string[] = [];
   public consoleMessages: { text: string; class: string; date: string }[] = [];
+  public canResetServer = false;
 
   private batchTesting = false;
 
@@ -89,6 +90,7 @@ export class HomeComponent implements OnInit {
     });
 
     if (batchValid) {
+      this.canResetServer = true;
       this.enigmaService.emitBatchValidated(validKey, validMessage);
     } else {
       this.addMessageToConsole('Batch invalid.', 'error');
@@ -104,5 +106,10 @@ export class HomeComponent implements OnInit {
     const dateString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
     this.consoleMessages.unshift({ text, class: cssClass, date: dateString });
+  }
+
+  public sendResetServer(): void {
+    this.canResetServer = false;
+    this.enigmaService.emitResetServer();
   }
 }

@@ -1,11 +1,22 @@
 <div class="container">
-  <mat-card class="console">
+
+
+  <mat-card class="console"
+            fxLayout="column"
+            fxLayoutAlign="space-between">
     <mat-card-content>
       <p *ngFor="let consoleMessage of consoleMessages"
          [ngClass]="consoleMessage.class">
           [{{ consoleMessage.date }}] {{ consoleMessage.text }}
       </p>
     </mat-card-content>
+
+    <button *ngIf="canResetServer"
+            mat-icon-button mat-flat-button mat-raised-button
+            color="primary"
+            (click)="sendResetServer()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </mat-card>
 
   <div fxLayout="row wrap"

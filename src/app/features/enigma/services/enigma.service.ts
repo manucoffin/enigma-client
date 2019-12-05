@@ -46,4 +46,8 @@ export class EnigmaService {
   ): void {
     this.socket.emit('message-decrypted', { decryptKey, decryptedMessage });
   }
+
+  public emitResetServer(): void {
+    this.socket.emit('reset');
+  }
 }
