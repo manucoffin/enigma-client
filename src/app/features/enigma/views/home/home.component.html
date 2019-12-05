@@ -1,0 +1,25 @@
+<div class="container">
+  <mat-card class="console">
+    <mat-card-content>
+      <p *ngFor="let consoleMessage of consoleMessages"
+         [ngClass]="consoleMessage.class">
+          [{{ consoleMessage.date }}] {{ consoleMessage.text }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <div fxLayout="row wrap"
+       fxLayoutGap="10px"
+       fxLayoutAlign="start">
+    <mat-card *ngFor="let decryptKey of (decryptKeys$ | async)"
+              [ngClass]="statuses[decryptKey.status]"
+              fxFlex="calc(25% - 10px)">
+      <mat-card-title>Key N°: {{ decryptKey.id }}</mat-card-title>
+      <mat-card-subtitle>Key: {{ decryptKey.key }}</mat-card-subtitle>
+
+      <mat-card-content>
+        {{ decryptedMessages[decryptKey.id] }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
