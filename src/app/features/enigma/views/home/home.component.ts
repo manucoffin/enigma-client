@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
   public algorithm: string;
   public validationSlug: string;
   public statuses = ['unknown', 'pending', 'rejected', 'validated'];
+  public decryptedMessages: string[] = [];
+  public consoleMessages: { text: string; class: string }[] = [];
 
   private batchTesting = false;
 
@@ -34,12 +36,21 @@ export class HomeComponent implements OnInit {
     this.decryptKeys$ = this.enigmaService.decryptKeys$;
 
     this.enigmaService.batch$.subscribe(batch => {
-      console.log('batch received');
+      this.consoleMessages.push({ text: 'Batch received.', class: 'primary' });
+
       if (!this.batchTesting && this.algorithm && this.validationSlug) {
-        console.log('batch accepted', batch);
+        this.consoleMessages.push({
+          text: 'Batch accepted.',
+          class: 'success',
+        });
+
         this.enigmaService.emitBatchAccepted(batch.decryptKeys);
         this.batchTesting = true;
-        this.testBatch(batch.encryptedMessage, batch.decryptKeys);
+
+        // We set a timeout to simulate long calculations
+        setTimeout(() => {
+          this.testBatch(batch.encryptedMessage, batch.decryptKeys);
+        }, 5000);
       }
     });
 
@@ -67,6 +78,8 @@ export class HomeComponent implements OnInit {
         decryptedMessage.includes(this.validationSlug),
       );
 
+      this.decryptedMessages[key.id] = decryptedMessage;
+
       // If the batch is valid
       if (decryptedMessage.includes(this.validationSlug)) {
         validKey = key;
@@ -78,9 +91,16 @@ export class HomeComponent implements OnInit {
     });
 
     if (batchValid) {
-      console.log('emit', validKey);
+      this.consoleMessages.push({
+        text: `Message decrypted: ${validMessage}`,
+        class: 'success',
+      });
       this.enigmaService.emitBatchValidated(validKey, validMessage);
     } else {
+      this.consoleMessages.push({
+        text: `Batch invalid.`,
+        class: 'error',
+      });
       this.enigmaService.emitBatchRejected(decryptKeys);
     }
 

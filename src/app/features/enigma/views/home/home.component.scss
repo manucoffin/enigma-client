@@ -1,15 +1,50 @@
-.unknown {
-  background: cornflowerblue;
+.container {
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  .console {
+    background: darkslategray;
+    height: 150px;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+
+    p {
+      &.primary {
+        color: whitesmoke;
+      }
+
+      &.success {
+        color:greenyellow
+      }
+
+      &.error {
+        color: orangered;
+      }
+    }
+  }
+
+  .mat-card {
+    margin-bottom: 10px;
+
+    &.unknown {
+      background: cornflowerblue;
+    }
+
+    &.pending {
+      background: yellow;
+    }
+
+    &.rejected {
+      background: orangered;
+    }
+
+    &.validated {
+      background: greenyellow;
+    }
+  }
+
 }
 
-.pending {
-  background: yellow;
-}
-
-.rejected {
-  background: orangered;
-}
-
-.validated {
-  background: greenyellow;
-}

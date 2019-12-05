@@ -1,9 +1,23 @@
-<h3>Algorithm : {{ algorithm }}</h3>
-<h3>Validation Slug : {{ validationSlug }}</h3>
-<h3>Batch testing : {{ batchTesting }}</h3>
+<div class="container">
+  <mat-card class="console">
+    <p *ngFor="let consoleMessage of consoleMessages"
+       [ngClass]="consoleMessage.class">
+        {{ consoleMessage.text }}
+    </p>
+  </mat-card>
 
-<ul>
-  <li *ngFor="let decryptKey of (decryptKeys$ | async)">
-    <div [ngClass]="statuses[decryptKey.status]">key : {{ decryptKey.key }}</div>
-  </li>
-</ul>
+  <div fxLayout="row wrap"
+       fxLayoutGap="10px"
+       fxLayoutAlign="start">
+    <mat-card *ngFor="let decryptKey of (decryptKeys$ | async)"
+              [ngClass]="statuses[decryptKey.status]"
+              fxFlex="calc(25% - 10px)">
+      <mat-card-title>Key N°: {{ decryptKey.id }}</mat-card-title>
+      <mat-card-subtitle>Key: {{ decryptKey.key }}</mat-card-subtitle>
+
+      <mat-card-content>
+        {{ decryptedMessages[decryptKey.id] }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
