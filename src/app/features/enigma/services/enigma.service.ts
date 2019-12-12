@@ -18,7 +18,7 @@ export class EnigmaService {
     this.batch$ = this.socket.fromEvent<IBatch>('batch');
     this.decryptKeys$ = this.socket.fromEvent<IDecryptKey[]>('decrypt-keys');
     this.messageDecrypted$ = this.socket.fromEvent<IMessageDecrypted>(
-      'message-decrypted',
+      'message/decrypted',
     );
   }
 
@@ -33,18 +33,18 @@ export class EnigmaService {
   }
 
   public emitBatchAccepted(decryptKeys: IDecryptKey[]): void {
-    this.socket.emit('batch-accepted', decryptKeys);
+    this.socket.emit('batch/accepted', decryptKeys);
   }
 
   public emitBatchRejected(decryptKeys: IDecryptKey[]): void {
-    this.socket.emit('batch-rejected', decryptKeys);
+    this.socket.emit('batch/rejected', decryptKeys);
   }
 
   public emitBatchValidated(
     decryptKey: IDecryptKey,
     decryptedMessage: string,
   ): void {
-    this.socket.emit('message-decrypted', { decryptKey, decryptedMessage });
+    this.socket.emit('batch/decrypted', { decryptKey, decryptedMessage });
   }
 
   public emitResetServer(): void {

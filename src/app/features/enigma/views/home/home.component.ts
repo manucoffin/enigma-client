@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
     this.decryptKeys$ = this.enigmaService.decryptKeys$;
 
     this.enigmaService.batch$.subscribe(batch => {
+      console.log(batch);
       this.addMessageToConsole('Batch received.', 'primary');
 
       if (!this.batchTesting && this.algorithm && this.validationSlug) {
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit {
 
     this.enigmaService.messageDecrypted$.subscribe(
       (decryptedData: IMessageDecrypted) => {
+        console.log(decryptedData);
         this.addMessageToConsole(
           `Message decrypted: ${decryptedData.decryptedMessage}`,
           'success',
