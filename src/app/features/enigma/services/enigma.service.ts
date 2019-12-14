@@ -5,6 +5,7 @@ import { IDecryptKey } from '../types/decrypt-key.interface';
 import { IBatch } from '../types/batch.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IMessageDecrypted } from '../types/message-decrypted.interface';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,14 @@ export class EnigmaService {
 
   public getValidationSlug(): Observable<string> {
     return this.http.get<string>(
-      'http://localhost:3000/enigma/validation-slug',
+      `${environment.enigmaServerUrl}/enigma/validation-slug`,
     );
   }
 
   public getAlgorithm(): Observable<string> {
-    return this.http.get<string>('http://localhost:3000/enigma/algorithm');
+    return this.http.get<string>(
+      `${environment.enigmaServerUrl}/enigma/algorithm`,
+    );
   }
 
   public emitBatchAccepted(decryptKeys: IDecryptKey[]): void {

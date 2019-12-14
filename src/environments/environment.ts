@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  enigmaServerUrl: 'http://localhost:3000',
 };
 
 /*
