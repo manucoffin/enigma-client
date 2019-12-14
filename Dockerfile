@@ -22,9 +22,9 @@ COPY . /app
 # generate build
 RUN ng build --output-path=dist
 
-############
-### prod ###
-############
+#############
+#### prod ###
+#############
 
 # base image
 FROM nginx:1.16.0-alpine
