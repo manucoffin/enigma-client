@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { EnigmaModule } from './features/enigma/enigma.module';
+import { AuthenticationModule } from './features/authentication/authentication.module';
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
@@ -17,6 +18,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
 
     EnigmaModule,
+    AuthenticationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

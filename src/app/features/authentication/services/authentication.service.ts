@@ -10,7 +10,14 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   public isAuthenticated(): boolean {
-    return true;
+    const user = localStorage.getItem('user');
+    console.log('user', user);
+
+    return !!user;
+  }
+
+  public storeToken(token): void {
+    localStorage.setItem('user', token);
   }
 
   public login(username: string, password: string): Observable<any> {
