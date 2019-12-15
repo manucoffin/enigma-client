@@ -29,7 +29,7 @@ export class LoginPageComponent implements OnInit {
       )
       .subscribe(
         res => {
-          this.authService.storeToken(res.user);
+          this.authService.storeToken(res);
         },
         error => (this.error = true),
       );

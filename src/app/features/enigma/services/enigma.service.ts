@@ -40,14 +40,20 @@ export class EnigmaService {
   }
 
   public emitBatchRejected(decryptKeys: IDecryptKey[]): void {
-    this.socket.emit('batch/rejected', decryptKeys);
+    const accessToken = localStorage.getItem('user');
+    this.socket.emit('batch/rejected', { decryptKeys, accessToken });
   }
 
   public emitBatchValidated(
     decryptKey: IDecryptKey,
     decryptedMessage: string,
   ): void {
-    this.socket.emit('batch/decrypted', { decryptKey, decryptedMessage });
+    const accessToken = localStorage.getItem('user');
+    this.socket.emit('batch/decrypted', {
+      decryptKey,
+      decryptedMessage,
+      accessToken,
+    });
   }
 
   public emitResetServer(): void {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +9,14 @@ import { Observable } from 'rxjs';
 export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
+  public getToken(): string {
+    const user = localStorage.getItem('user');
+
+    return user ? user : null;
+  }
+
   public isAuthenticated(): boolean {
     const user = localStorage.getItem('user');
-    console.log('user', user);
 
     return !!user;
   }
@@ -25,10 +30,14 @@ export class AuthenticationService {
     formData.append('username', username);
     formData.append('password', password);
 
-    return this.http.post<any>(
-      `${environment.enigmaServerUrl}/login`,
-      formData,
+    // Simulate the return of a JWT while API is not live
+    return of(
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImZpcnN0bmFtZSI6Imdlb3JnZXMiLCJsYXN0bmFtZSI6ImFiaXRib2wiLCJ1c2VybmFtZSI6Imdlb3JnZXNhYml0Ym9sIiwianRpIjoiMzk0YTNhZGItMGY4My00NWM0LThmZDYtNDY4N2U2NjcxNTgyIiwiaWF0IjoxNTc2NDM0ODQzLCJleHAiOjE1NzY0Mzg1MzJ9.45dLrKYsCCPYl26zUqa9U2N06xLf21586MwH1-I4sBM',
     );
+    // return this.http.post<any>(
+    //   `${environment.enigmaServerUrl}/login`,
+    //   formData,
+    // );
   }
 
   public register(username: string, password: string): Observable<any> {
