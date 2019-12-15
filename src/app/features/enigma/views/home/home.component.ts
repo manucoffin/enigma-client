@@ -40,11 +40,10 @@ export class HomeComponent implements OnInit {
     this.decryptKeys$ = this.enigmaService.decryptKeys$;
 
     this.enigmaService.batch$.subscribe(batch => {
-      console.log(batch);
-      this.addMessageToConsole('Batch received.', 'primary');
+      this.log('Batch received.', 'primary');
 
       if (!this.batchTesting && this.algorithm && this.validationSlug) {
-        this.addMessageToConsole('Batch accepted.', 'success');
+        this.log('Batch accepted.', 'success');
 
         this.enigmaService.emitBatchAccepted(batch.decryptKeys);
         this.batchTesting = true;
@@ -58,8 +57,7 @@ export class HomeComponent implements OnInit {
 
     this.enigmaService.messageDecrypted$.subscribe(
       (decryptedData: IMessageDecrypted) => {
-        console.log(decryptedData);
-        this.addMessageToConsole(
+        this.log(
           `Message decrypted: ${decryptedData.decryptedMessage}`,
           'success',
         );
@@ -95,7 +93,7 @@ export class HomeComponent implements OnInit {
       this.canResetServer = true;
       this.enigmaService.emitBatchValidated(validKey, validMessage);
     } else {
-      this.addMessageToConsole('Batch invalid.', 'error');
+      this.log('Batch invalid.', 'error');
 
       this.enigmaService.emitBatchRejected(decryptKeys);
     }
@@ -103,7 +101,7 @@ export class HomeComponent implements OnInit {
     this.batchTesting = false;
   }
 
-  private addMessageToConsole(text: string, cssClass: string): void {
+  private log(text: string, cssClass: string): void {
     const date = new Date();
     const dateString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
