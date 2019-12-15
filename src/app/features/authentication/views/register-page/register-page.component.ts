@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-page',
@@ -17,6 +18,7 @@ export class RegisterPageComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private fb: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit() {}
@@ -29,7 +31,7 @@ export class RegisterPageComponent implements OnInit {
       )
       .subscribe(
         res => {
-          this.authService.storeToken(res.user);
+          this.router.navigate(['/auth', 'login']);
         },
         error => (this.error = true),
       );

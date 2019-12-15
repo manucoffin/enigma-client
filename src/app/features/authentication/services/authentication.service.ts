@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable, of } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,14 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     const user = localStorage.getItem('user');
 
-    return !!user;
+    return !!user && !this.isTokenExpired();
+  }
+
+  public isTokenExpired(): boolean {
+    const helper = new JwtHelperService();
+    const accessToken = localStorage.getItem('user');
+
+    return helper.isTokenExpired(accessToken);
   }
 
   public storeToken(token): void {
